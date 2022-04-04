@@ -1,0 +1,27 @@
+package com.springRabbitMQ;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+@SpringBootApplication
+public class SpringRabbitMqApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringRabbitMqApplication.class, args);
+		ConnectionFactory connectionFactory = new ConnectionFactory();
+		Connection connection = connectionFactory.newConnection();
+		Channel channel = connection.createChannel();
+		
+		String message = "lº Message";
+		
+		channel.basicPublish("", "queue-1", null, message.getBytes());
+		
+		channel.close();
+		connection.close();
+	}
+
+}
